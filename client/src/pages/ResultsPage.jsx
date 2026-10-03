@@ -10,6 +10,7 @@ export default function ResultsPage() {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(true)
   const [selectedId, setSelectedId] = useState(null)
+  const [reloadKey, setReloadKey] = useState(0)
 
   const videoRef = useRef(null)
   const stopAtRef = useRef(null) // when set, pause the video once currentTime reaches it
@@ -24,7 +25,7 @@ export default function ResultsPage() {
       .catch((e) => { if (!cancelled) setError(e.message) })
       .finally(() => { if (!cancelled) setLoading(false) })
     return () => { cancelled = true }
-  }, [id])
+  }, [id, reloadKey])
 
   // Precise "pause at end" (timeupdate only fires ~4x/second, rAF is accurate)
   useEffect(() => {
@@ -80,8 +81,26 @@ export default function ResultsPage() {
 
   if (loading) {
     return (
-      <div className="page">
-        <p className="muted">Loading your clips…</p>
+      <div className="page results" aria-busy="true">
+        <div className="results-head">
+          <div className="sk sk-title" style={{ width: 220, height: 24 }} />
+        </div>
+        <div className="results-grid">
+          <div className="player-col">
+            <div className="sk sk-player" />
+          </div>
+          <div className="clips-col">
+            {[0, 1, 2].map((i) => (
+              <div key={i} className="skeleton-card">
+                <div className="sk sk-title" />
+                <div className="sk sk-line" />
+                <div className="sk sk-line short" />
+                <div className="sk-tags"><div className="sk sk-tag" /><div className="sk sk-tag" /><div className="sk sk-tag" /></div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <p className="muted state-note">Loading your clips…</p>
       </div>
     )
   }
@@ -89,8 +108,15 @@ export default function ResultsPage() {
   if (error) {
     return (
       <div className="page">
-        <div className="error">{error}</div>
-        <p><Link to="/">← Back to upload</Link></p>
+        <div className="card state-card">
+          <div className="state-icon" aria-hidden="true">⚠</div>
+          <h2>Something went wrong</h2>
+          <div className="error state-error">{error}</div>
+          <div className="state-actions">
+            <button type="button" className="btn" onClick={() => setReloadKey((k) => k + 1)}>Try again</button>
+            <Link to="/" className="btn btn-ghost">← Back to upload</Link>
+          </div>
+        </div>
       </div>
     )
   }
@@ -100,10 +126,16 @@ export default function ResultsPage() {
   if (!video || video.status !== 'done' || clips.length === 0) {
     return (
       <div className="page">
-        <div className="card">
+        <div className="card state-card">
+          <div className="state-icon" aria-hidden="true">🎬</div>
           <h2>No clips yet</h2>
-          <p className="muted">This video has not been analyzed (status: {video?.status ?? 'unknown'}).</p>
-          <Link to="/">← Back to upload</Link>
+          <p className="muted">
+            This video has not been analyzed (status: {video?.status ?? 'unknown'}).
+            Upload a video and script to generate clip suggestions.
+          </p>
+          <div className="state-actions">
+            <Link to="/" className="btn">← Back to upload</Link>
+          </div>
         </div>
       </div>
     )
