@@ -117,6 +117,7 @@ Platform rules for adapt: reels 9:16 max 90s, shorts 9:16 max 60s, linkedin 1:1 
 
 ### Mock data (use as-is when `MOCK=true`)
 Ridhima puts a realistic `Video` object with 3 sections and 3 clips in `server/data/sample-analysis.json`. `POST /videos/:id/analyze` returns it (with the real video's id and url swapped in) after a fake 1.5s delay so the UI loading state can be tested.
+Clip ids are globally unique strings of the form `<videoId>_c1`, `<videoId>_c2`, ... (routes like /clips/:id have no video id). sample-analysis.json must be rewritten with the real videoId prefix on every clip id and on each clip's `videoId` field. All errors are `{ "error": "message" }` with a 4xx/5xx status.
 
 ## Gemini notes (Ridhima)
 - Videos over ~20 MB need the Files API upload; wait until the file state is ACTIVE before calling generate.
@@ -140,3 +141,4 @@ Ridhima puts a realistic `Video` object with 3 sections and 3 clips in `server/d
 - 2026-10-03: PS allotted (CreatorAi), scope approved, CONTEXT.md filled in.
 - 2026-10-03: client scaffolded (Vite+React, proxy), mocks.js, api.js (mock mode unless VITE_USE_MOCK=false), upload page working against mocks, on feat/shehzad-ui
 - 2026-10-03: results page done (player + clip cards, click seeks and pauses at endSec) on feat/shehzad-ui. store.js interface added to this file; backend starter prompts sent to Ridhima and Samiya.
+
