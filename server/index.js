@@ -4,7 +4,7 @@ import cors from 'cors'
 import path from 'path'
 import { fileURLToPath } from 'url'
 import videosRouter from './routes/videos.js'
-// SAMIYA: add your import here:  import clipsRouter from './routes/clips.js'
+import clipsRouter from './routes/clips.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const app = express()
@@ -16,7 +16,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
 app.get('/api/health', (req, res) => res.json({ ok: true, mock: process.env.MOCK === 'true' }))
 
 app.use('/api/videos', videosRouter)
-// SAMIYA: add your mount here:  app.use('/api/clips', clipsRouter)
+app.use('/api/clips', clipsRouter)
 
 // every error -> { "error": "message" }
 app.use((err, req, res, next) => {
