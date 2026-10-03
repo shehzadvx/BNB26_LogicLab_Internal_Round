@@ -131,3 +131,4 @@ Ridhima puts a realistic `Video` object with 3 sections and 3 clips in `server/d
 
 ## Progress log
 - 2026-10-03: PS allotted (CreatorAi), scope approved, CONTEXT.md filled in.
+- 2026-10-03: client scaffolded (Vite+React, proxy), mocks.js, api.js (mock mode unless VITE_USE_MOCK=false), upload page working against mocks, on feat/shehzad-ui
