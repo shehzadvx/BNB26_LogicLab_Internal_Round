@@ -1,0 +1,25 @@
+{
+  "name": "logiclab_maharashtra_round",
+  "version": "1.0.0",
+  "description": "Team Logic Lab: Shehzad Baig, Ridhima Pandey, Samiya Naaz Sayyed",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shehzadvx/LogicLab_maharashtra_round.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/shehzadvx/LogicLab_maharashtra_round/issues"
+  },
+  "homepage": "https://github.com/shehzadvx/LogicLab_maharashtra_round#readme",
+  "dependencies": {
+    "@google/genai": "^2.27.0",
+    "dotenv": "^18.0.5"
+  }
+}
