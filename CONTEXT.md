@@ -128,6 +128,7 @@ Clip ids are globally unique strings of the form `<videoId>_c1`, `<videoId>_c2`,
 - Ask for JSON only (`responseMimeType: application/json`) and validate/parse in try/catch; on a bad parse, retry once.
 - Prompt gets: the script split into sections + the video; asks for each section's startSec/endSec, then 3 to 5 clip picks with hook, caption, hashtags, reason. Timestamps must be inside `durationSec`.
 - Fallback for the live demo: `USE_CACHE=true` returns `sample-analysis.json` without calling Gemini.
+- SDK: @google/genai, installed in server/. Env vars in server/.env: MOCK, USE_CACHE, GEMINI_API_KEY, GEMINI_MODEL (gemini-3.8-flash).
 
 ## Git rules
 - One branch per person: `feat/<name>-<feature>` (e.g. `feat/ridhima-analyze`, `feat/samiya-adapt`, `feat/shehzad-ui`).
@@ -153,5 +154,8 @@ Clip ids are globally unique strings of the form `<videoId>_c1`, `<videoId>_c2`,
 - 2026-10-03: server: clips routes (PATCH, hook-variants, adapt) and adapt.js working in mock mode, merged to main (PR #2). Shehzad covered both backend parts because teammates had not started.
 - 2026-10-03: client: api.js sends durationSec on upload in real mode (d9f8403). Verified: saved durationSec 541.6 matches the video.
 - NEXT: real gemini.js (analyzeVideo, generateText), then end-to-end test with VITE_USE_MOCK=false and USE_CACHE as the demo fallback.
+- 2026-10-04: server: real gemini.js merged (PR from feat/ridhima-gemini, main at edbb238). analyzeVideo uses inline upload up to ~20 MB and the Files API above that (waits for ACTIVE), JSON-only output validated with one retry, timestamps clamped to durationSec. generateText has a json option. USE_CACHE=true returns sample-analysis.json with the real videoId. SDK @google/genai is installed in server/. Tested end to end with MOCK=false, USE_CACHE=false, VITE_USE_MOCK=false on a 541.6 s video: 4 clips, content matched the footage.
+- 2026-10-04: ops notes: node test-gemini.mjs only runs from server/ (dotenv is not installed at root). Restart the server after any .env change. If npm run dev exits right away, port 4000 is already in use; kill the old process. A real analyze run takes about 1 to 3 minutes.
+- OPEN: (1) re-run the two PATCH error tests: <videoId>_c9 should return {"error":"Clip not found"}, and endSec 9999 should return "endSec must be at most 541.6s (video length)"; (2) spot-check that clip timestamps match the hooks, and try the adapt tabs and Regenerate hook on real data; (3) replace sample-analysis.json with the real analysis so the cache fallback matches the demo video; (4) README with future scope; (5) fix the old repo name in root package.json (repository, bugs, homepage); (6) demo run-through, once live and once with USE_CACHE=true.
 
 
