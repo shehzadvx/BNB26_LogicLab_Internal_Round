@@ -80,17 +80,23 @@ h2 { font-size: 1.4rem; }
   -webkit-backdrop-filter: blur(14px);
 }
 .brand {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
   font-weight: 800;
   font-size: 1.15rem;
   letter-spacing: -0.02em;
-  color: #c4a8ff; /* fallback if gradient text is unsupported */
-  background-image: var(--grad);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: #fff;
 }
-.brand:hover { filter: brightness(1.15); }
+.brand::before {
+  content: '';
+  width: 22px;
+  height: 22px;
+  border-radius: 7px;
+  background: var(--grad);
+  box-shadow: 0 0 14px rgba(168, 85, 247, 0.55);
+}
+.brand:hover { color: #fff; filter: brightness(1.15); }
 
 .container { max-width: 1040px; margin: 0 auto; padding: 32px 24px 64px; }
 
