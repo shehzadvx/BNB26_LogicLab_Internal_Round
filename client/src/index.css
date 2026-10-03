@@ -87,3 +87,12 @@ textarea, input[type=file] { width:100%; background:var(--bg); color:var(--text)
 .saved-note { color: var(--accent); font-size: 0.9rem; }
 .tab-row { display: flex; gap: 8px; margin-bottom: 10px; }
 .adaptation { display: grid; gap: 8px; }
+.edit-actions { margin-bottom: 24px; }
+
+.platform-tabs { margin-top: 12px; }
+
+.adaptation { display: grid; gap: 10px; }
+.adaptation p { margin: 0; }
+.adaptation .field { gap: 4px; }
+.adaptation .field label { margin-bottom: 0; }
+.adaptation .btn { justify-self: start; }
