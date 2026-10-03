@@ -141,4 +141,6 @@ Clip ids are globally unique strings of the form `<videoId>_c1`, `<videoId>_c2`,
 - 2026-10-03: PS allotted (CreatorAi), scope approved, CONTEXT.md filled in.
 - 2026-10-03: client scaffolded (Vite+React, proxy), mocks.js, api.js (mock mode unless VITE_USE_MOCK=false), upload page working against mocks, on feat/shehzad-ui
 - 2026-10-03: results page done (player + clip cards, click seeks and pauses at endSec) on feat/shehzad-ui. store.js interface added to this file; backend starter prompts sent to Ridhima and Samiya.
+- 2026-10-03: client: edit panel done (trim, hook/caption/hashtags, PATCH sends only changed fields, hook variants) on feat/shehzad-ui.
+- 2026-10-03: client: platform tabs (Reels / Shorts / LinkedIn) added to EditPanel via PlatformTabs.jsx. Calls api.adaptClip(clipId, platform) and shows aspectRatio, maxDurationSec, adapted text, notes and an over-limit warning. Pushed (c38b275). Mock mode works; not yet tested against the real backend.
 
