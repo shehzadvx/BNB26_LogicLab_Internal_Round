@@ -399,3 +399,18 @@ textarea { resize: vertical; }
 .sk-line.short { width: 70%; }
 .sk-tags { display: flex; gap: 8px; }
 .sk-tag { height: 20px; width: 70px; border-radius: 999px; }
+/* ============ Results states ============ */
+.sk-player { width: 100%; aspect-ratio: 16 / 9; border-radius: var(--radius); }
+.state-note { text-align: center; margin-top: 20px; }
+
+.state-card { max-width: 520px; margin: 48px auto; text-align: center; }
+.state-card h2 { margin: 8px 0 10px; }
+.state-icon {
+  width: 56px; height: 56px; display: grid; place-items: center;
+  margin: 0 auto 8px; border-radius: 50%; font-size: 1.5rem;
+  background: var(--grad-soft); border: 1px solid var(--border-strong);
+}
+.state-error { text-align: left; margin: 12px 0 18px; }
+.state-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 18px; }
+.state-actions .btn { display: inline-block; text-decoration: none; }
+.state-actions .btn-ghost:hover { color: var(--text); }
