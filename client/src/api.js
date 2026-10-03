@@ -27,10 +27,12 @@ const json = (method, body) => ({
 
 const real = {
   health: () => request('/health'),
-  uploadVideo: (file, script) => {
+  uploadVideo: async (file, script) => {
+    const durationSec = Math.round((await readDuration(file)) * 10) / 10
     const form = new FormData()
     form.append('video', file)
     form.append('script', script)
+    form.append('durationSec', String(durationSec))
     return request('/videos', { method: 'POST', body: form })
   },
   analyzeVideo: (id) => request(`/videos/${id}/analyze`, { method: 'POST' }),
