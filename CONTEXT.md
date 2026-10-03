@@ -91,14 +91,18 @@ Video = {
 | # | Method + path | Owner | Request | Response |
 |---|---|---|---|---|
 | 1 | `GET /health` | Ridhima | - | `{ "ok": true, "mock": true }` |
-| 2 | `POST /videos` | Ridhima | multipart: `video` (file), `script` (text) | `Video` with `status: "uploaded"`, empty `sections` and `clips` |
+| 2 | `POST /videos` | Ridhima | multipart: video (file), script (text), durationSec (number, optional) | `Video` with `status: "uploaded"`, empty `sections` and `clips` |
 | 3 | `POST /videos/:id/analyze` | Ridhima | - | `Video` with `status: "done"`, `sections` and `clips` filled |
 | 4 | `GET /videos/:id` | Ridhima | - | `Video` |
 | 5 | `GET /videos` | Ridhima | - | `{ "videos": [Video] }` |
 | 6 | `PATCH /clips/:id` | Samiya | any of `{ startSec, endSec, hook, caption, hashtags }` | updated `Clip` with `edited: true` |
 | 7 | `POST /clips/:id/hook-variants` | Samiya | `{ "tone": "bold" }` (optional; bold, curious, friendly) | `{ "hooks": ["...", "...", "..."] }` |
 | 8 | `POST /clips/:id/adapt` | Samiya | `{ "platform": "reels" }` (reels, shorts, linkedin) | `Adaptation` (below) |
+`durationSec` is sent by the client (seconds). The server uses it to scale mock timestamps and to validate trim edits.
 
+PATCH /clips/:id validation: `startSec` and `endSec` must be numbers, `startSec` ≥ 0, `endSec` > `startSec` and ≤ video `durationSec`. `hook` can't be empty. `hashtags` must be an array of strings. Errors return 400 with `{ "error": "..." }`.
+
+POST /clips/:id/adapt: an unknown platform returns 400.
 Static: `GET /uploads/<file>` serves the video (Ridhima mounts `express.static`).
 
 ```json
@@ -113,7 +117,7 @@ Adaptation = {
   "notes": "Keep text short, add captions on screen"
 }
 ```
-Platform rules for adapt: reels 9:16 max 90s, shorts 9:16 max 60s, linkedin 1:1 or 4:5 max 180s with a more professional tone. Samiya's code enforces `maxDurationSec` (flag in `notes` if the clip is too long); Gemini only rewrites text.
+Platform rules for adapt: reels 9:16 max 90s, shorts 9:16 max 60s, linkedin 4:5 max 180s with a more professional tone. Samiya's code enforces `maxDurationSec` (flag in `notes` if the clip is too long); Gemini only rewrites text.
 
 ### Mock data (use as-is when `MOCK=true`)
 Ridhima puts a realistic `Video` object with 3 sections and 3 clips in `server/data/sample-analysis.json`. `POST /videos/:id/analyze` returns it (with the real video's id and url swapped in) after a fake 1.5s delay so the UI loading state can be tested.
@@ -145,4 +149,9 @@ Clip ids are globally unique strings of the form `<videoId>_c1`, `<videoId>_c2`,
 - 2026-10-03: client: platform tabs (Reels / Shorts / LinkedIn) added to EditPanel via PlatformTabs.jsx. Calls api.adaptClip(clipId, platform) and shows aspectRatio, maxDurationSec, adapted text, notes and an over-limit warning. Pushed (c38b275). Mock mode works; not yet tested against the real backend.
 - 2026-10-03: client: platform tabs tested in mock mode (tabs load, cache, reset on save, over-limit warning). Real-mode error path checked (shows "Cannot reach the server" when backend is off). Next: Step 6 UI polish/redesign, then switch to real API once Ridhima and Samiya push.
 * 2026-10-03: client Step 6 (UI redesign) started on feat/shehzad-ui: design tokens, purple-pink gradient theme, pill tabs, selected-card glow in index.css. Next: toasts, hero upload, skeletons. Frontend-only, no API shapes changed. Real API switch after Ridhima and Samiya push.
+- 2026-10-03: server: express app, store.js, videos routes (upload, analyze, get, list) working in mock mode, merged to main (PR #1). Real Gemini (gemini.js) still a stub.
+- 2026-10-03: server: clips routes (PATCH, hook-variants, adapt) and adapt.js working in mock mode, merged to main (PR #2). Shehzad covered both backend parts because teammates had not started.
+- 2026-10-03: client: api.js sends durationSec on upload in real mode (d9f8403). Verified: saved durationSec 541.6 matches the video.
+- NEXT: real gemini.js (analyzeVideo, generateText), then end-to-end test with VITE_USE_MOCK=false and USE_CACHE as the demo fallback.
+
 
