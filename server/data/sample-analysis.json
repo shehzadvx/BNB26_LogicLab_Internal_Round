@@ -1,39 +1,120 @@
 {
-  "id": "v1",
-  "filename": "demo.mp4",
-  "videoUrl": "/uploads/v1.mp4",
-  "script": "Most creators burn out because their workflow is broken. A good system turns one long recording into many short pieces. Start small: one script, one video, three clips.",
-  "durationSec": 187.4,
-  "status": "done",
-  "sections": [
-    { "id": "s1", "text": "Most creators burn out because their workflow is broken, not because they are lazy.", "startSec": 0, "endSec": 62 },
-    { "id": "s2", "text": "A good system turns one long recording into many short pieces of content.", "startSec": 62, "endSec": 125 },
-    { "id": "s3", "text": "Start small: one script, one video, three clips, and publish consistently.", "startSec": 125, "endSec": 187.4 }
-  ],
-  "clips": [
-    {
-      "id": "c1", "videoId": "v1", "title": "Why most creators burn out",
-      "startSec": 12, "endSec": 41.5,
-      "hook": "You're not lazy. Your workflow is broken.",
-      "caption": "Burnout is a systems problem, not a motivation problem.",
-      "hashtags": ["#creator", "#workflow", "#burnout"],
-      "sectionId": "s1", "reason": "Strongest emotional moment, matches script paragraph 1", "edited": false
-    },
-    {
-      "id": "c2", "videoId": "v1", "title": "One recording, many clips",
-      "startSec": 70, "endSec": 105,
-      "hook": "Stop recording ten videos. Record one.",
-      "caption": "Turn a single long video into a week of content.",
-      "hashtags": ["#contentcreator", "#repurposing", "#shorts"],
-      "sectionId": "s2", "reason": "Clear, actionable tip that matches script paragraph 2", "edited": false
-    },
-    {
-      "id": "c3", "videoId": "v1", "title": "Start small",
-      "startSec": 130, "endSec": 168,
-      "hook": "Three clips. One video. Start today.",
-      "caption": "Consistency beats perfection, start with one script and one video.",
-      "hashtags": ["#creatortips", "#consistency", "#startnow"],
-      "sectionId": "s3", "reason": "Strong call to action, matches script paragraph 3", "edited": false
-    }
-  ]
+    "id":  "v1791053659025",
+    "filename":  "VN20260909_112803.mp4",
+    "videoUrl":  "/uploads/v1791053659025.mp4",
+    "script":  "abc",
+    "durationSec":  541.6,
+    "status":  "done",
+    "sections":  [
+                     {
+                         "id":  "s1",
+                         "text":  "Introduction to Capacity Connect prototype landing page and logging into the Admin Course Approval Dashboard, demonstrating how course approvals and global announcements work.",
+                         "startSec":  0,
+                         "endSec":  44.5
+                     },
+                     {
+                         "id":  "s2",
+                         "text":  "Exploring the Platform Analytics dashboard including trainer stats, course metrics, credit distribution, popular courses, trainer search by subject, and admin profile settings.",
+                         "startSec":  44.5,
+                         "endSec":  111
+                     },
+                     {
+                         "id":  "s3",
+                         "text":  "Logging in as a Trainer to create a new course, setting up course details, pricing via Capacity Credits, uploading video lectures and document resources, and submitting for approval.",
+                         "startSec":  111,
+                         "endSec":  287
+                     },
+                     {
+                         "id":  "s4",
+                         "text":  "Admin reviews and approves the pending DBMS course, posts a platform-wide announcement, followed by reviewing trainer analytics, contribution credits, and subject competencies.",
+                         "startSec":  287,
+                         "endSec":  366.5
+                     },
+                     {
+                         "id":  "s5",
+                         "text":  "Trainee signup and onboarding into the Learner Workspace, browsing courses, enrolling, reviewing module materials, completing lectures, and receiving verified course certificates.",
+                         "startSec":  366.5,
+                         "endSec":  473
+                     },
+                     {
+                         "id":  "s6",
+                         "text":  "Reviewing Capacity Credits wallet transactions, achievements, monthly leaderboard rankings, trainee profile customization, and the upcoming AI Doubt Solver assistant.",
+                         "startSec":  473,
+                         "endSec":  541.6
+                     }
+                 ],
+    "clips":  [
+                  {
+                      "id":  "v1791053659025_c1",
+                      "videoId":  "v1791053659025",
+                      "title":  "Monetizing Courses with Capacity Credits",
+                      "startSec":  163,
+                      "endSec":  196,
+                      "hook":  "If you want to keep this course as a paid course, here is how the credit system works.",
+                      "caption":  "Learn how educators can monetize their training modules using Capacity Credits on Capacity Connect! 💡🎓 #EdTech #CourseCreation #OnlineLearning #Elearning",
+                      "hashtags":  [
+                                       "#EdTech",
+                                       "#CourseCreation",
+                                       "#OnlineLearning",
+                                       "#CapacityConnect"
+                                   ],
+                      "sectionId":  "s3",
+                      "reason":  "Clear, concise demonstration of a core platform differentiator: gating content behind customizable credit values.",
+                      "edited":  false
+                  },
+                  {
+                      "id":  "v1791053659025_c2",
+                      "videoId":  "v1791053659025",
+                      "title":  "Trainer Analytics and Competency Matching",
+                      "startSec":  324,
+                      "endSec":  357,
+                      "hook":  "Admins can automatically match the right trainers to courses based on validated subject competencies.",
+                      "caption":  "Tracking engagement and matching subject experts made seamless with Capacity Connect\u0027s trainer portal. 📊🚀 #Analytics #CorporateTraining #TrainerPortal #LMS",
+                      "hashtags":  [
+                                       "#CorporateTraining",
+                                       "#TrainerPortal",
+                                       "#Analytics",
+                                       "#LMS"
+                                   ],
+                      "sectionId":  "s4",
+                      "reason":  "Highlights the two-sided value proposition for instructors and organizations managing internal knowledge transfer.",
+                      "edited":  false
+                  },
+                  {
+                      "id":  "v1791053659025_c3",
+                      "videoId":  "v1791053659025",
+                      "title":  "Course Completion to Verified Certificate",
+                      "startSec":  443,
+                      "endSec":  472,
+                      "hook":  "Finish your course, submit your feedback, and get an instantly verified digital certificate.",
+                      "caption":  "From learning to certification in seconds! Watch the student experience and instant verification in action. 📜✅ #Certification #SkillBuilding #ContinuousLearning",
+                      "hashtags":  [
+                                       "#Certification",
+                                       "#SkillBuilding",
+                                       "#ContinuousLearning",
+                                       "#DigitalCredentials"
+                                   ],
+                      "sectionId":  "s5",
+                      "reason":  "High-reward moment showcasing immediate student gratification: rating submission, credential issuance, and verification modal.",
+                      "edited":  false
+                  },
+                  {
+                      "id":  "v1791053659025_c4",
+                      "videoId":  "v1791053659025",
+                      "title":  "Gamified Learning with Credit Passbooks",
+                      "startSec":  473,
+                      "endSec":  507,
+                      "hook":  "Every course you complete deposits Capacity Credits right into your digital wallet.",
+                      "caption":  "Gamifying professional upskilling with redeemable credits and live monthly leaderboards! 🏆🪙 #Gamification #IncentivizedLearning #EdTechDemo",
+                      "hashtags":  [
+                                       "#Gamification",
+                                       "#IncentivizedLearning",
+                                       "#EdTechDemo",
+                                       "#ProductDesign"
+                                   ],
+                      "sectionId":  "s6",
+                      "reason":  "Demonstrates the gamified incentive loop (earning, spending, and ranking on the leaderboard) which drives user retention.",
+                      "edited":  false
+                  }
+              ]
 }
