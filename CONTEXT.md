@@ -144,4 +144,5 @@ Clip ids are globally unique strings of the form `<videoId>_c1`, `<videoId>_c2`,
 - 2026-10-03: client: edit panel done (trim, hook/caption/hashtags, PATCH sends only changed fields, hook variants) on feat/shehzad-ui.
 - 2026-10-03: client: platform tabs (Reels / Shorts / LinkedIn) added to EditPanel via PlatformTabs.jsx. Calls api.adaptClip(clipId, platform) and shows aspectRatio, maxDurationSec, adapted text, notes and an over-limit warning. Pushed (c38b275). Mock mode works; not yet tested against the real backend.
 - 2026-10-03: client: platform tabs tested in mock mode (tabs load, cache, reset on save, over-limit warning). Real-mode error path checked (shows "Cannot reach the server" when backend is off). Next: Step 6 UI polish/redesign, then switch to real API once Ridhima and Samiya push.
+* 2026-10-03: client Step 6 (UI redesign) started on feat/shehzad-ui: design tokens, purple-pink gradient theme, pill tabs, selected-card glow in index.css. Next: toasts, hero upload, skeletons. Frontend-only, no API shapes changed. Real API switch after Ridhima and Samiya push.
 
