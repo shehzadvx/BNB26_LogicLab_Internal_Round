@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { api } from '../api'
 import ClipCard from '../components/ClipCard'
+import EditPanel from '../components/EditPanel'
 
 export default function ResultsPage() {
   const { id } = useParams()
@@ -25,7 +26,7 @@ export default function ResultsPage() {
     return () => { cancelled = true }
   }, [id])
 
-  // Precise "pause at endSec" (timeupdate only fires ~4x/second, rAF is accurate)
+  // Precise "pause at end" (timeupdate only fires ~4x/second, rAF is accurate)
   useEffect(() => {
     let raf
     const tick = () => {
@@ -42,24 +43,39 @@ export default function ResultsPage() {
     return () => cancelAnimationFrame(raf)
   }, [])
 
-  const playClip = (clip) => {
+  // Play [startSec, endSec] of the video, then pause
+  const playRange = (startSec, endSec) => {
     const v = videoRef.current
     if (!v) return
-    setSelectedId(clip.id)
 
-    const start = () => {
-      stopAtRef.current = clip.endSec
-      v.currentTime = clip.startSec
+    const begin = () => {
+      stopAtRef.current = endSec
+      v.currentTime = startSec
       v.play().catch(() => { /* autoplay blocked or interrupted, user can press play */ })
     }
 
     // Seeking before metadata has loaded is unreliable, so wait if needed
     if (v.readyState < 1) {
-      v.addEventListener('loadedmetadata', start, { once: true })
+      v.addEventListener('loadedmetadata', begin, { once: true })
       v.load()
     } else {
-      start()
+      begin()
     }
+  }
+
+  const playClip = (clip) => {
+    setSelectedId(clip.id)
+    playRange(clip.startSec, clip.endSec)
+  }
+
+  const getTime = () => videoRef.current?.currentTime ?? 0
+
+  // Replace one clip with the server's updated copy
+  const handleSaved = (updated) => {
+    setVideo((v) => ({
+      ...v,
+      clips: v.clips.map((c) => (c.id === updated.id ? updated : c)),
+    }))
   }
 
   if (loading) {
@@ -111,18 +127,28 @@ export default function ResultsPage() {
             playsInline
             preload="metadata"
           />
-          <p className="muted player-hint">Click a clip to play just that section.</p>
+          <p className="muted player-hint">Click a clip to play just that section and edit it.</p>
         </div>
 
         <div className="clips-col">
           {clips.map((clip, i) => (
-            <ClipCard
-              key={clip.id}
-              clip={clip}
-              index={i}
-              selected={clip.id === selectedId}
-              onSelect={playClip}
-            />
+            <div key={clip.id} className="clip-item">
+              <ClipCard
+                clip={clip}
+                index={i}
+                selected={clip.id === selectedId}
+                onSelect={playClip}
+              />
+              {clip.id === selectedId && (
+                <EditPanel
+                  clip={clip}
+                  durationSec={video.durationSec}
+                  getTime={getTime}
+                  onPreview={playRange}
+                  onSaved={handleSaved}
+                />
+              )}
+            </div>
           ))}
         </div>
       </div>

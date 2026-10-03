@@ -43,3 +43,45 @@ textarea, input[type=file] { width:100%; background:var(--bg); color:var(--text)
 
 .tags { display: flex; flex-wrap: wrap; gap: 6px; }
 .tag { font-size: 0.8rem; padding: 2px 8px; border-radius: 999px; background: rgba(255, 255, 255, 0.06); color: var(--muted); }
+/* ---------- Edit panel ---------- */
+.clip-item { display: flex; flex-direction: column; gap: 8px; }
+
+.edit-panel { border-color: var(--accent); }
+.edit-title { margin: 0 0 12px; }
+.edit-section { margin-bottom: 16px; }
+.edit-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.edit-meta { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; font-size: 0.85rem; margin-top: 8px; }
+
+.edit-panel .field { display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px; }
+.edit-panel label { font-size: 0.85rem; color: var(--muted); }
+.edit-panel input,
+.edit-panel textarea,
+.edit-panel select {
+  width: 100%; box-sizing: border-box; padding: 8px 10px;
+  background: var(--bg); color: var(--text);
+  border: 1px solid var(--border); border-radius: 8px; font: inherit;
+}
+.edit-panel input:focus,
+.edit-panel textarea:focus,
+.edit-panel select:focus { outline: 2px solid var(--accent); outline-offset: 0; }
+.edit-panel textarea { resize: vertical; }
+
+.field-error { color: var(--danger); font-size: 0.8rem; }
+
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn-ghost { background: transparent; color: var(--text); border: 1px solid var(--border); }
+.btn-ghost:hover:not(:disabled) { border-color: var(--accent); }
+.btn-small { padding: 4px 10px; font-size: 0.8rem; align-self: flex-start; }
+
+.hook-tools { display: flex; gap: 8px; align-items: center; }
+.hook-tools select { width: auto; }
+.hook-options { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; }
+.hook-option {
+  text-align: left; padding: 8px 10px; border-radius: 8px; cursor: pointer;
+  background: var(--bg); color: var(--text); border: 1px solid var(--border); font: inherit;
+}
+.hook-option:hover { border-color: var(--accent); }
+.hook-option.picked { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+
+.edit-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.saved-note { color: var(--accent); font-size: 0.9rem; }
