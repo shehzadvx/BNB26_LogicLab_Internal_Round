@@ -1,5 +1,5 @@
 {
-  "name": "logiclab_maharashtra_round",
+  "name": "bnb26-logiclab-internal-round",
   "version": "1.0.0",
   "description": "Team Logic Lab: Shehzad Baig, Ridhima Pandey, Samiya Naaz Sayyed",
   "main": "index.js",
@@ -8,16 +8,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/shehzadvx/LogicLab_maharashtra_round.git"
+    "url": "git+https://github.com/shehzadvx/BNB26_LogicLab_Internal_Round.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "bugs": {
-    "url": "https://github.com/shehzadvx/LogicLab_maharashtra_round/issues"
+    "url": "https://github.com/shehzadvx/BNB26_LogicLab_Internal_Round/issues"
   },
-  "homepage": "https://github.com/shehzadvx/LogicLab_maharashtra_round#readme",
+  "homepage": "https://github.com/shehzadvx/BNB26_LogicLab_Internal_Round#readme",
   "dependencies": {
     "@google/genai": "^2.27.0",
     "dotenv": "^18.0.5"
