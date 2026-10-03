@@ -42,10 +42,10 @@ export function getClip(clipId) {
 }
 
 // merges changes, sets edited: true, returns the clip (or null)
-export function updateClip(clipId, changes) {
+export function updateClip(clipId, changes, { markEdited = true } = {}) {
   const clip = getClip(clipId)
   if (!clip) return null
-  Object.assign(clip, changes, { edited: true })
+  Object.assign(clip, changes, markEdited ? { edited: true } : {})
   persist()
   return clip
 }

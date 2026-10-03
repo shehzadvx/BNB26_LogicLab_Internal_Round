@@ -5,6 +5,8 @@ import path from 'path'
 import { fileURLToPath } from 'url'
 import videosRouter from './routes/videos.js'
 import clipsRouter from './routes/clips.js'
+import workflowRouter from './routes/workflow.js';
+
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const app = express()
@@ -17,6 +19,7 @@ app.get('/api/health', (req, res) => res.json({ ok: true, mock: process.env.MOCK
 
 app.use('/api/videos', videosRouter)
 app.use('/api/clips', clipsRouter)
+app.use('/api', workflowRouter)
 
 // every error -> { "error": "message" }
 app.use((err, req, res, next) => {
