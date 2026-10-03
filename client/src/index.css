@@ -80,15 +80,17 @@ h2 { font-size: 1.4rem; }
   -webkit-backdrop-filter: blur(14px);
 }
 .brand {
+  display: inline-block;
   font-weight: 800;
   font-size: 1.15rem;
   letter-spacing: -0.02em;
-  background: var(--grad);
+  color: #c4a8ff; /* fallback if gradient text is unsupported */
+  background-image: var(--grad);
   -webkit-background-clip: text;
   background-clip: text;
-  color: transparent;
+  -webkit-text-fill-color: transparent;
 }
-.brand:hover { color: transparent; filter: brightness(1.15); }
+.brand:hover { filter: brightness(1.15); }
 
 .container { max-width: 1040px; margin: 0 auto; padding: 32px 24px 64px; }
 
