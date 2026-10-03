@@ -1,0 +1,39 @@
+{
+  "id": "v1",
+  "filename": "demo.mp4",
+  "videoUrl": "/uploads/v1.mp4",
+  "script": "Most creators burn out because their workflow is broken. A good system turns one long recording into many short pieces. Start small: one script, one video, three clips.",
+  "durationSec": 187.4,
+  "status": "done",
+  "sections": [
+    { "id": "s1", "text": "Most creators burn out because their workflow is broken, not because they are lazy.", "startSec": 0, "endSec": 62 },
+    { "id": "s2", "text": "A good system turns one long recording into many short pieces of content.", "startSec": 62, "endSec": 125 },
+    { "id": "s3", "text": "Start small: one script, one video, three clips, and publish consistently.", "startSec": 125, "endSec": 187.4 }
+  ],
+  "clips": [
+    {
+      "id": "c1", "videoId": "v1", "title": "Why most creators burn out",
+      "startSec": 12, "endSec": 41.5,
+      "hook": "You're not lazy. Your workflow is broken.",
+      "caption": "Burnout is a systems problem, not a motivation problem.",
+      "hashtags": ["#creator", "#workflow", "#burnout"],
+      "sectionId": "s1", "reason": "Strongest emotional moment, matches script paragraph 1", "edited": false
+    },
+    {
+      "id": "c2", "videoId": "v1", "title": "One recording, many clips",
+      "startSec": 70, "endSec": 105,
+      "hook": "Stop recording ten videos. Record one.",
+      "caption": "Turn a single long video into a week of content.",
+      "hashtags": ["#contentcreator", "#repurposing", "#shorts"],
+      "sectionId": "s2", "reason": "Clear, actionable tip that matches script paragraph 2", "edited": false
+    },
+    {
+      "id": "c3", "videoId": "v1", "title": "Start small",
+      "startSec": 130, "endSec": 168,
+      "hook": "Three clips. One video. Start today.",
+      "caption": "Consistency beats perfection, start with one script and one video.",
+      "hashtags": ["#creatortips", "#consistency", "#startnow"],
+      "sectionId": "s3", "reason": "Strong call to action, matches script paragraph 3", "edited": false
+    }
+  ]
+}
