@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { api } from '../api'
 import { fmtLength } from '../utils'
+import PlatformTabs from './PlatformTabs'
 
 const TONES = [
   { value: '', label: 'Any tone' },
@@ -242,6 +243,11 @@ export default function EditPanel({ clip, durationSec, getTime, onPreview, onSav
         {notice && <span className="saved-note">✓ {notice}</span>}
         {!dirty && !notice && <span className="muted">No changes</span>}
       </div>
+      <div className="edit-section">
+        <h4 className="edit-title">Adapt for platform</h4>
+        <PlatformTabs clip={clip} />
+      </div>
     </div>
+    
   )
 }

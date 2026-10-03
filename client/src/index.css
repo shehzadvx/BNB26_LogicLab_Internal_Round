@@ -85,3 +85,5 @@ textarea, input[type=file] { width:100%; background:var(--bg); color:var(--text)
 
 .edit-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 .saved-note { color: var(--accent); font-size: 0.9rem; }
+.tab-row { display: flex; gap: 8px; margin-bottom: 10px; }
+.adaptation { display: grid; gap: 8px; }
