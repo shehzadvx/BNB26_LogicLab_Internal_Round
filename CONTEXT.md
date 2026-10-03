@@ -42,6 +42,13 @@ Judging criteria: not announced. Deliverable format: none specified by organizer
   services/adapt.js     platform adaptation logic (Samiya)
   data/sample-analysis.json   cached demo result (Ridhima)
 CONTEXT.md  README.md  .env.example
+### store.js interface (Ridhima implements, Samiya consumes)
+All synchronous, in-memory, persisted to server/data/db.json:
+  getVideo(id) -> Video | undefined
+  listVideos() -> Video[]
+  saveVideo(video) -> Video                          // insert or replace
+  getClip(clipId) -> Clip | undefined
+  updateClip(clipId, changes) -> Clip | undefined    // merges changes, sets edited: true
 ```
 
 ## Mock-first rule
@@ -132,3 +139,4 @@ Ridhima puts a realistic `Video` object with 3 sections and 3 clips in `server/d
 ## Progress log
 - 2026-10-03: PS allotted (CreatorAi), scope approved, CONTEXT.md filled in.
 - 2026-10-03: client scaffolded (Vite+React, proxy), mocks.js, api.js (mock mode unless VITE_USE_MOCK=false), upload page working against mocks, on feat/shehzad-ui
+- 2026-10-03: results page done (player + clip cards, click seeks and pauses at endSec) on feat/shehzad-ui. store.js interface added to this file; backend starter prompts sent to Ridhima and Samiya.
