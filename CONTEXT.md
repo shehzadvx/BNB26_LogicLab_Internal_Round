@@ -91,6 +91,8 @@ Video = {
 }
 ```
 Optional workflow fields (additive): status (idea | scripted | edited | ready | scheduled), scheduledAt (ISO string or null), scheduledPlatform (reels | shorts | linkedin or null). A clip without status is treated as "idea". Old videos and sample-analysis.json need no migration.
+Asset = { "id": "v1_a1", "videoId": "v1", "type": "snippet | link | note", "title": "Brand intro line", "content": "text or https:// url", "createdAt": "ISO string" }
+Optional (additive): Video.assets = [Asset]. A video without `assets` is treated as an empty list. No migration needed.
 
 ### Endpoints
 | # | Method + path | Owner | Request | Response |
@@ -106,6 +108,9 @@ Optional workflow fields (additive): status (idea | scripted | edited | ready | 
 | 9 | `PATCH /clips/:id/status` | Shehzad | `{ status, scheduledAt?, platform? }` (status: idea, scripted, edited, ready, scheduled; scheduled needs scheduledAt and platform) | updated `Clip` (does NOT set `edited`) |
 | 10 | `GET /schedule` | Shehzad | - | `{ items: [{ clipId, videoId, filename, title, platform, scheduledAt, published: false }], note }`, soonest first |
 | 11 | `POST /clips/:id/export` | Shehzad | `{ platform? }` (reels, shorts, linkedin) | `{ clipId, platform, text, videoFile, trim: { startSec, endSec }, filename }` |
+| 12 | `GET /videos/:id/assets` | Shehzad | - | `{ assets: [Asset] }` |
+| 13 | `POST /videos/:id/assets` | Shehzad | `{ type, title, content }` (title max 80, content max 2000, link must be http(s)) | `Asset` (201) |
+| 14 | `DELETE /videos/:id/assets/:assetId` | Shehzad | - | `{ ok: true }` |
 
 `durationSec` is sent by the client (seconds). The server uses it to scale mock timestamps and to validate trim edits.
 
@@ -170,5 +175,7 @@ Clip ids are globally unique strings of the form `<videoId>_c1`, `<videoId>_c2`,
 - OPEN: (1) re-run the two PATCH error tests: <videoId>_c9 should return {"error":"Clip not found"}, and endSec 9999 should return "endSec must be at most 541.6s (video length)"; (2) spot-check that clip timestamps match the hooks, and try the adapt tabs and Regenerate hook on real data; (3) replace sample-analysis.json with the real analysis so the cache fallback matches the demo video; (4) README with future scope; (5) fix the old repo name in root package.json (repository, bugs, homepage); (6) demo run-through, once live and once with USE_CACHE=true.
 - 2026-10-04: cache replaced with real analysis, README and package.json fixed, demo run-through done (live and cache).
 - 2026-10-04: extras branch feat/shehzad-extras (not merged to main; tag v1-submit = e252116 is the safe fallback). Content workflow server half done and tested (happy path, 5 error cases, edited unchanged after a status change): optional Clip fields status/scheduledAt/scheduledPlatform, endpoints 9 to 11 in server/routes/workflow.js, store.updateClip gained optional { markEdited } (default true). Additive only; no real publishing. NEXT: client half (status pills, schedule picker, Export post, schedule queue with "planned only" banner, card badge, mock-mode api functions), then asset library, then Creator Intelligence. No merge to main until a full retest (live and cache) passes.
+- 2026-10-04: client: content workflow UI on feat/shehzad-extras (StatusPills, ExportButton, ScheduleQueue, StatusBadge; api.setClipStatus/getSchedule/exportPost in real and mock). Additive only; nothing published.
+- 2026-10-04: asset library (text snippets, links, notes per video; no uploads) on feat/shehzad-extras: server/routes/assets.js (endpoints 12 to 14, stored on video.assets), client AssetLibrary.jsx, api.listAssets/addAsset/deleteAsset (real and mock). Additive only. NEXT: Creator Intelligence (computed from real clip data only, no invented numbers). No merge to main until the full retest (live and cache, real 541.6 s video) passes.
 
 

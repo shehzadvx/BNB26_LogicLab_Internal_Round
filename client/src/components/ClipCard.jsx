@@ -1,4 +1,5 @@
 import { fmtRange, fmtLength } from '../utils'
+import StatusBadge from './StatusBadge'
 
 export default function ClipCard({ clip, index, selected, onSelect }) {
   const handleKey = (e) => {
@@ -20,6 +21,7 @@ export default function ClipCard({ clip, index, selected, onSelect }) {
         <span className="clip-index">#{index + 1}</span>
         <h3 className="clip-title">{clip.title}</h3>
         {clip.edited && <span className="badge">edited</span>}
+        <StatusBadge status={clip.status} />
       </div>
 
       <div className="clip-time muted">

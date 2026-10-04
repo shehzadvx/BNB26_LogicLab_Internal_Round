@@ -3,6 +3,8 @@ import { Link, useParams } from 'react-router-dom'
 import { api } from '../api'
 import ClipCard from '../components/ClipCard'
 import EditPanel from '../components/EditPanel'
+import ScheduleQueue from '../components/ScheduleQueue'
+import AssetLibrary from '../components/AssetLibrary'
 
 export default function ResultsPage() {
   const { id } = useParams()
@@ -11,6 +13,7 @@ export default function ResultsPage() {
   const [loading, setLoading] = useState(true)
   const [selectedId, setSelectedId] = useState(null)
   const [reloadKey, setReloadKey] = useState(0)
+  const [tab, setTab] = useState('clips')
 
   const videoRef = useRef(null)
   const stopAtRef = useRef(null) // when set, pause the video once currentTime reaches it
@@ -147,42 +150,65 @@ export default function ResultsPage() {
         <Link to="/">← New upload</Link>
         <h2>{video.filename}</h2>
         <span className="muted">{clips.length} clip suggestions</span>
+        <div className="view-tabs">
+          <button
+            type="button"
+            className={`pill ${tab === 'clips' ? 'active' : ''}`}
+            onClick={() => setTab('clips')}
+          >
+            Clips
+          </button>
+          <button
+            type="button"
+            className={`pill ${tab === 'schedule' ? 'active' : ''}`}
+            onClick={() => setTab('schedule')}
+          >
+            Schedule
+          </button>
+        </div>
       </div>
 
-      <div className="results-grid">
-        <div className="player-col">
-          <video
-            ref={videoRef}
-            className="player"
-            src={video.videoUrl}
-            controls
-            playsInline
-            preload="metadata"
-          />
-          <p className="muted player-hint">Click a clip to play just that section and edit it.</p>
+      {tab === 'schedule' && <ScheduleQueue />}
+
+      {/* kept mounted (just hidden) so the video keeps its place when you switch tabs */}
+      <div style={{ display: tab === 'clips' ? 'block' : 'none' }}>
+        <div className="results-grid">
+          <div className="player-col">
+            <video
+              ref={videoRef}
+              className="player"
+              src={video.videoUrl}
+              controls
+              playsInline
+              preload="metadata"
+            />
+            <p className="muted player-hint">Click a clip to play just that section and edit it.</p>
+          </div>
+
+          <div className="clips-col">
+            {clips.map((clip, i) => (
+              <div key={clip.id} className="clip-item">
+                <ClipCard
+                  clip={clip}
+                  index={i}
+                  selected={clip.id === selectedId}
+                  onSelect={playClip}
+                />
+                {clip.id === selectedId && (
+                  <EditPanel
+                    clip={clip}
+                    durationSec={video.durationSec}
+                    getTime={getTime}
+                    onPreview={playRange}
+                    onSaved={handleSaved}
+                  />
+                )}
+              </div>
+            ))}
+          </div>
         </div>
 
-        <div className="clips-col">
-          {clips.map((clip, i) => (
-            <div key={clip.id} className="clip-item">
-              <ClipCard
-                clip={clip}
-                index={i}
-                selected={clip.id === selectedId}
-                onSelect={playClip}
-              />
-              {clip.id === selectedId && (
-                <EditPanel
-                  clip={clip}
-                  durationSec={video.durationSec}
-                  getTime={getTime}
-                  onPreview={playRange}
-                  onSaved={handleSaved}
-                />
-              )}
-            </div>
-          ))}
-        </div>
+        <AssetLibrary videoId={video.id} />
       </div>
     </div>
   )

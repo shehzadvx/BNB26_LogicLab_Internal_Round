@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { api } from '../api'
 import { fmtLength } from '../utils'
 import PlatformTabs from './PlatformTabs'
+import StatusPills from './StatusPills'
+import ExportButton from './ExportButton'
 
 const TONES = [
   { value: '', label: 'Any tone' },
@@ -246,6 +248,11 @@ export default function EditPanel({ clip, durationSec, getTime, onPreview, onSav
       <div className="edit-section">
         <h4 className="edit-title">Adapt for platform</h4>
         <PlatformTabs clip={clip} />
+      </div>
+      <div className="edit-section">
+        <h4 className="edit-title">Workflow</h4>
+        <StatusPills clip={clip} onChange={onSaved} />
+        <ExportButton clip={clip} />
       </div>
     </div>
     
