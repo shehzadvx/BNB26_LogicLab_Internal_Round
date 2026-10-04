@@ -422,3 +422,9 @@ textarea { resize: vertical; }
 .state-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 18px; }
 .state-actions .btn { display: inline-block; text-decoration: none; }
 .state-actions .btn-ghost:hover { color: var(--text); }
+.asset-form{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}
+.asset-form input,.asset-form textarea{flex:1 1 200px}
+.asset-list{list-style:none;padding:0;margin:0}
+.asset-item{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-top:1px solid rgba(255,255,255,.08)}
+.asset-content{margin-top:4px;word-break:break-word;white-space:pre-wrap}
+.asset-actions{display:flex;gap:6px;align-items:flex-start}

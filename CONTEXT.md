@@ -1,4 +1,4 @@
-# CONTEXT.md - Logic Lab, Bit N Build 2026 (Internal Round)
+﻿# CONTEXT.md - Logic Lab, Bit N Build 2026 (Internal Round)
 
 Handoff file. Every teammate's Claude reads this first. Keep it updated in the "Progress log" at the bottom.
 
@@ -38,6 +38,7 @@ Judging criteria: not announced. Deliverable format: none specified by organizer
   store.js              data access (Ridhima)
   routes/videos.js      upload, analyze, get (Ridhima)
   routes/clips.js       edit, hook variants, adapt (Samiya)
+  routes/workflow.js    status, schedule queue, export (Shehzad); mounted as app.use('/api', workflowRouter)
   services/gemini.js    Gemini calls (Ridhima)
   services/adapt.js     platform adaptation logic (Samiya)
   data/sample-analysis.json   cached demo result (Ridhima)
@@ -48,7 +49,7 @@ All synchronous, in-memory, persisted to server/data/db.json:
   listVideos() -> Video[]
   saveVideo(video) -> Video                          // insert or replace
   getClip(clipId) -> Clip | undefined
-  updateClip(clipId, changes) -> Clip | undefined    // merges changes, sets edited: true
+  updateClip(clipId, changes, { markEdited = true } = {}) -> Clip | null   // merges changes; sets edited: true unless markEdited is false
 ```
 
 ## Mock-first rule
@@ -72,7 +73,10 @@ Clip = {
   "hashtags": ["#creator", "#workflow"],
   "sectionId": "s1",
   "reason": "Strongest emotional moment, matches script paragraph 1",
-  "edited": false
+  "edited": false,
+  "status": "idea",
+  "scheduledAt": null,
+  "scheduledPlatform": null
 }
 
 Video = {
@@ -86,6 +90,9 @@ Video = {
   "clips": [Clip]
 }
 ```
+Optional workflow fields (additive): status (idea | scripted | edited | ready | scheduled), scheduledAt (ISO string or null), scheduledPlatform (reels | shorts | linkedin or null). A clip without status is treated as "idea". Old videos and sample-analysis.json need no migration.
+Asset = { "id": "v1_a1", "videoId": "v1", "type": "snippet | link | note", "title": "Brand intro line", "content": "text or https:// url", "createdAt": "ISO string" }
+Optional (additive): Video.assets = [Asset]. A video without `assets` is treated as an empty list. No migration needed.
 
 ### Endpoints
 | # | Method + path | Owner | Request | Response |
@@ -98,9 +105,18 @@ Video = {
 | 6 | `PATCH /clips/:id` | Samiya | any of `{ startSec, endSec, hook, caption, hashtags }` | updated `Clip` with `edited: true` |
 | 7 | `POST /clips/:id/hook-variants` | Samiya | `{ "tone": "bold" }` (optional; bold, curious, friendly) | `{ "hooks": ["...", "...", "..."] }` |
 | 8 | `POST /clips/:id/adapt` | Samiya | `{ "platform": "reels" }` (reels, shorts, linkedin) | `Adaptation` (below) |
+| 9 | `PATCH /clips/:id/status` | Shehzad | `{ status, scheduledAt?, platform? }` (status: idea, scripted, edited, ready, scheduled; scheduled needs scheduledAt and platform) | updated `Clip` (does NOT set `edited`) |
+| 10 | `GET /schedule` | Shehzad | - | `{ items: [{ clipId, videoId, filename, title, platform, scheduledAt, published: false }], note }`, soonest first |
+| 11 | `POST /clips/:id/export` | Shehzad | `{ platform? }` (reels, shorts, linkedin) | `{ clipId, platform, text, videoFile, trim: { startSec, endSec }, filename }` |
+| 12 | `GET /videos/:id/assets` | Shehzad | - | `{ assets: [Asset] }` |
+| 13 | `POST /videos/:id/assets` | Shehzad | `{ type, title, content }` (title max 80, content max 2000, link must be http(s)) | `Asset` (201) |
+| 14 | `DELETE /videos/:id/assets/:assetId` | Shehzad | - | `{ ok: true }` |
+
 `durationSec` is sent by the client (seconds). The server uses it to scale mock timestamps and to validate trim edits.
 
-PATCH /clips/:id validation: `startSec` and `endSec` must be numbers, `startSec` ≥ 0, `endSec` > `startSec` and ≤ video `durationSec`. `hook` can't be empty. `hashtags` must be an array of strings. Errors return 400 with `{ "error": "..." }`.
+Workflow validation: bad status, missing or invalid scheduledAt, or unknown platform returns 400; unknown clip returns 404. All errors are { "error": "message" }. Nothing is ever published (`published` is always false); this is a planning queue only.
+
+PATCH /clips/:id validation: `startSec` and `endSec` must be numbers, `startSec` â‰¥ 0, `endSec` > `startSec` and â‰¤ video `durationSec`. `hook` can't be empty. `hashtags` must be an array of strings. Errors return 400 with `{ "error": "..." }`.
 
 POST /clips/:id/adapt: an unknown platform returns 400.
 Static: `GET /uploads/<file>` serves the video (Ridhima mounts `express.static`).
@@ -158,5 +174,9 @@ Clip ids are globally unique strings of the form `<videoId>_c1`, `<videoId>_c2`,
 - 2026-10-04: ops notes: node test-gemini.mjs only runs from server/ (dotenv is not installed at root). Restart the server after any .env change. If npm run dev exits right away, port 4000 is already in use; kill the old process. A real analyze run takes about 1 to 3 minutes.
 - OPEN: (1) re-run the two PATCH error tests: <videoId>_c9 should return {"error":"Clip not found"}, and endSec 9999 should return "endSec must be at most 541.6s (video length)"; (2) spot-check that clip timestamps match the hooks, and try the adapt tabs and Regenerate hook on real data; (3) replace sample-analysis.json with the real analysis so the cache fallback matches the demo video; (4) README with future scope; (5) fix the old repo name in root package.json (repository, bugs, homepage); (6) demo run-through, once live and once with USE_CACHE=true.
 - 2026-10-04: cache replaced with real analysis, README and package.json fixed, demo run-through done (live and cache).
+- 2026-10-04: extras branch feat/shehzad-extras (not merged to main; tag v1-submit = e252116 is the safe fallback). Content workflow server half done and tested (happy path, 5 error cases, edited unchanged after a status change): optional Clip fields status/scheduledAt/scheduledPlatform, endpoints 9 to 11 in server/routes/workflow.js, store.updateClip gained optional { markEdited } (default true). Additive only; no real publishing. NEXT: client half (status pills, schedule picker, Export post, schedule queue with "planned only" banner, card badge, mock-mode api functions), then asset library, then Creator Intelligence. No merge to main until a full retest (live and cache) passes.
+- 2026-10-04: client: content workflow UI on feat/shehzad-extras (StatusPills, ExportButton, ScheduleQueue, StatusBadge; api.setClipStatus/getSchedule/exportPost in real and mock). Additive only; nothing published.
+- 2026-10-04: asset library (text snippets, links, notes per video; no uploads) on feat/shehzad-extras: server/routes/assets.js (endpoints 12 to 14, stored on video.assets), client AssetLibrary.jsx, api.listAssets/addAsset/deleteAsset (real and mock). Additive only. NEXT: Creator Intelligence (computed from real clip data only, no invented numbers). No merge to main until the full retest (live and cache, real 541.6 s video) passes.
+- 2026-10-04: client deployed to Vercel in mock mode (no backend): https://client-beta-puce-81.vercel.app . Real Gemini runs locally only (Vercel functions cap request bodies at 4.5 MB and have no persistent disk). Update with `vercel --prod` from client/ after client changes. main and v1-submit untouched.
 
 
